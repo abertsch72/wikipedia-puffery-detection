@@ -1,7 +1,12 @@
+"""
+leave mark in for citation
+quotes?
+"""
+
 import re
 
 peacock_filename = "peacockterms.txt"
-normal_filename = "nonpeacockterms.txt"
+normal_filename = "nonpeacock-ir.txt"
 
 to_process = {peacock_filename, normal_filename}
 
@@ -9,9 +14,15 @@ for filename in to_process:
     sentences = []
     file = open(filename, 'r')
     for sen in file.readlines():
-        # Remove all [footnotes]
         sentence = sen
-        sentence = re.sub(r'\[.*?\]', ' ', sentence)
+
+        # Replace all [citations] with an empty [] to signal citation
+        # note that citations are numbers in [square brackets]
+        # should this be a cite keyword instead??
+        sentence = re.sub(r'(?<!^)\[[0-9]+\]', 'CITE', sentence)
+
+        # Remove all non-citation [footnotes]
+        sentence = re.sub(r'(?!\[\])\[.+?\]', ' ', sentence)
 
         # Remove all the special characters
         sentence = re.sub(r'\W', ' ', sentence)
@@ -35,6 +46,6 @@ for filename in to_process:
         print(sentence)
         sentences.append(sentence)
     file.close()
-    file = open("clean-" + filename, 'w')
+    file = open("NEW-clean-" + filename, 'w')
     file.writelines(sentences)
 
