@@ -16,8 +16,8 @@ import pandas as pd
 import seaborn as sns
 
 
-peacock_filename = "clean-peacockterms.txt"
-normal_filename = "clean-nonpeacockterms.txt"
+peacock_filename = "../../data/clean-peacockterms.txt"
+normal_filename = "../../data/clean-nonpeacockterms.txt"
 
 df = [[line.strip(), 1] for line in open(peacock_filename).readlines()]
 df.extend([[line.strip(), 0] for line in open(normal_filename).readlines()])

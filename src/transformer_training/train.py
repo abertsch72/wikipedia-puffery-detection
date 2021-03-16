@@ -4,10 +4,10 @@ https://github.com/clulab/incivility
 import transformers
 import tensorflow as tf
 import tensorflow_addons as tfa
-from typing import Sequence, Text
+from typing import Text
 import os
 
-from transformer_training import models, data
+from src.transformer_training import models, data
 
 model = "roberta-base"
 model_path = os.path.join("..", "saved_models", "testmodel.{epoch:02d}-{val_loss:.2f}.hdf5")

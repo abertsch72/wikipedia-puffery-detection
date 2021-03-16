@@ -13,7 +13,7 @@ nonpeacock = ""
 to_get = 286
 so_far = 0
 
-f1 = open("nonpeacock_random_append.txt", 'w')
+f1 = open("../../../data/nonpeacock_random_append.txt", 'w')
 
 pages_used = set()
 cont = True
@@ -53,12 +53,12 @@ while(cont):
     if c is not None and c.get("cmcontinue") is not None:
         text = requests.get(cmd + "&cmcontinue=" + c.get("cmcontinue")).json()
     else:
-        f1 = open("nonpeacock_random.txt", 'w')
+        f1 = open("../../../data/nonpeacock_random.txt", 'w')
         f1.write(nonpeacock)
         import sys
         sys.exit(0)
 
-f1 = open("nonpeacock_random.txt", 'w')
+f1 = open("../../../data/nonpeacock_random.txt", 'w')
 f1.write(nonpeacock)
 
 print(pages_used)

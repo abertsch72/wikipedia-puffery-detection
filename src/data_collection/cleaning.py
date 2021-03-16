@@ -5,8 +5,8 @@ quotes?
 
 import re
 
-peacock_filename = "peacockterms.txt"
-normal_filename = "nonpeacock-ir.txt"
+peacock_filename = "../../data/peacockterms.txt"
+normal_filename = "../../data/nonpeacock-ir.txt"
 
 to_process = {peacock_filename, normal_filename}
 

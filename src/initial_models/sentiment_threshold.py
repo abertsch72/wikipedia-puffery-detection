@@ -1,4 +1,4 @@
-from get_article_by_name import get_article_by_name
+from src.data_collection.current_peacock_tag.get_article_by_name import get_article_by_name
 from textblob import TextBlob
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 

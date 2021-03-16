@@ -15,8 +15,8 @@ peacock = ""
 nonpeacock = ""
 
 
-f = open("appendpeacock.txt", 'w')
-f1 = open("appendnormal.txt", 'w')
+f = open("../../../data/appendpeacock.txt", 'w')
+f1 = open("../../../data/appendnormal.txt", 'w')
 
 pages_used = set()
 cont = True

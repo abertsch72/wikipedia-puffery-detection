@@ -58,9 +58,9 @@ while(cont):
     if c is not None:
         text = requests.get(cmd + "&cmcontinue=" + c.get("cmcontinue")).json()
     else:
-        f = open("peacockterms.txt", 'w')
+        f = open("../../../data/peacockterms.txt", 'w')
         f.write(peacock)
-        f1 = open("nonpeacockterms.txt", 'w')
+        f1 = open("../../../data/nonpeacockterms.txt", 'w')
         f1.write(nonpeacock)
         import sys
         sys.exit(0)

@@ -1,12 +1,12 @@
 import os
-from typing import List, Sequence, Text
+from typing import Text
 import csv
 
 import transformers
 from sklearn.metrics import precision_recall_fscore_support
 
-import transformer_training.models as models
-from transformer_training.data import get_all_data
+from src import transformer_training as models
+from src.transformer_training import get_all_data
 
 
 MODEL_PATH = "saved_models/testmodel.11-1.96-f1at0.72727.hdf5"
