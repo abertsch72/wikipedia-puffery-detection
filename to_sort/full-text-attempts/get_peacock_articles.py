@@ -14,8 +14,7 @@ regex = re.compile(r"(.*?)(<[^<]*>)*<[^<]*?(Puffery|peacock)[^<]*?>")
 peacock = ""
 nonpeacock = ""
 
-
-
+f = open("peacockterms.txt", 'w')
 
 pages_used = set()
 cont = True
@@ -28,40 +27,18 @@ while(cont):
             raw = t.html().split('\n')[4:]
             for line in raw:
                 if "peacock" in line.lower():
-                    line.lstrip(whitespace)
-                    if (line[0:6] != "<table"):
-                        m = regex.match(line)
-                        if m:
-                            keywords = BeautifulSoup(m.group(0), "html.parser").text
-                            keywords = keywords.split()
-                            keywords = ' '.join(keywords[max(0, len(keywords)-4):]).split('.')[0].strip(punctuation)
-                            sentences = tokenize.sent_tokenize(BeautifulSoup(line, "html.parser").text)
-                            potential = [sent for sent in sentences if keywords in sent][0]
-                            if "contains wording that promotes the subject in a subjective manner without imparting real information" in potential:
-                                continue
-                            else:
-                                print(potential)
-                                peacock += potential + "\n"
-                            i = sentences.index(potential)
-                            if i > 0:
-                                print(sentences[sentences.index(potential)-1])
-                                nonpeacock += sentences[sentences.index(potential)-1]
-                            if i < len(sentences) - 1:
-                                print(sentences[sentences.index(potential)+1])
-                                nonpeacock += sentences[sentences.index(potential)+1]
-                            pages_used.add(pagename['title'])
+                    peacock += '\n'.join(t.html().split('\n')[4:]) + "\n~~~~\n"
+                    f.write('\n'.join(t.html().split('\n')[4:]) + "\n~~~~\n")
+                break
         except Exception as e:
             print(e)
             print(t)
+        print(peacock)
     c = text.get("continue")
     print(c)
     if c is not None:
         text = requests.get(cmd + "&cmcontinue=" + c.get("cmcontinue")).json()
     else:
-        f = open("peacockterms.txt", 'w')
-        f.write(peacock)
-        f1 = open("nonpeacockterms.txt", 'w')
-        f1.write(nonpeacock)
         import sys
         sys.exit(0)
 

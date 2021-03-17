@@ -1,10 +1,13 @@
 import re
+from nltk.corpus import stopwords
 
 peacock_filename = "peacockterms.txt"
-normal_filename = "nonpeacockterms.txt"
+normal_filename = "nonpeacock-ir.txt"
 
 to_process = {peacock_filename, normal_filename}
 
+to_process = {"nonpeacock-ir.txt", "peacockterms.txt"}
+stopWords = set(stopwords.words('english'))
 for filename in to_process:
     sentences = []
     file = open(filename, 'r')
@@ -32,9 +35,11 @@ for filename in to_process:
 
         # Converting to Lowercase
         sentence = sentence.lower() + "\n"
+        sentence = " ".join([word for word in sentence.split() if word not in stopWords])
+        sentence += "\n"
         print(sentence)
         sentences.append(sentence)
     file.close()
-    file = open("clean-" + filename, 'w')
+    file = open("clean2-" + filename, 'w')
     file.writelines(sentences)
 

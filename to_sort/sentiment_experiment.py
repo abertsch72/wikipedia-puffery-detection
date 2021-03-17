@@ -1,7 +1,7 @@
 from textblob import TextBlob
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
-from get_article_by_name import get_article_by_name
+from to_sort.get_article_by_name import get_article_by_name
 
 biased = get_article_by_name("Monroe College")
 biased2 = get_article_by_name("Arun Singh (politician, born 1965)")

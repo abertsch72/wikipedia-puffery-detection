@@ -1,4 +1,4 @@
-from get_article_by_name import get_article_by_name
+from to_sort.get_article_by_name import get_article_by_name
 from textblob import TextBlob
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
