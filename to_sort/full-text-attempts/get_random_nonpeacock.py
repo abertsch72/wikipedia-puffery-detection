@@ -1,74 +1,56 @@
 import requests
 import wikipedia
+from wikipedia import exceptions
 from bs4 import BeautifulSoup
-import re
 from string import punctuation, whitespace
 from nltk import tokenize
+import random
 
-cmd= "https://en.wikipedia.org/w/api.php?action=query&format=json&list=categorymembers&cmtitle=Category%3A%20All%20articles%20with%20peacock%20terms&cmlimit=max"
+cmd= "https://www.mediawiki.org/w/api.php?action=query&format=json&list=random&rnnamespace=0&rnlimit=max"
 text = requests.get(cmd).json()
 
-
-regex = re.compile(r"(.*?)(<[^<]*>)*<[^<]*?(Puffery|peacock)[^<]*?>")
-
-peacock = ""
 nonpeacock = ""
+to_get = 286
+so_far = 0
 
-
-
+f1 = open("../../../data/nonpeacock_random_append.txt", 'w')
 
 pages_used = set()
 cont = True
 while(cont):
     print(text.get('continue'))
-    for pagename in text['query']['categorymembers']:
+    for pagename in text['query']['random']:
         try:
-
             t = wikipedia.page(pagename['title'])
-            raw = t.html().split('\n')[4:]
+            raw = t.html().split('\n')
+            if "Maintenance template" in raw[0]:
+                continue  # skip articles with issues
+            print(len(raw))
             for line in raw:
-                if "peacock" in line.lower():
-                    line.lstrip(whitespace)
-                    if (line[0:6] != "<table"):
-                        m = regex.match(line)
-                        if m:
-                            keywords = BeautifulSoup(m.group(0), "html.parser").text
-                            keywords = keywords.split()
-                            keywords = ' '.join(keywords[max(0, len(keywords)-4):]).split('.')[0].strip(punctuation)
-                            sentences = tokenize.sent_tokenize(BeautifulSoup(line, "html.parser").text)
-                            potential = [sent for sent in sentences if keywords in sent][0]
-                            if "contains wording that promotes the subject in a subjective manner without imparting real information" in potential:
-                                continue
-                            else:
-                                print(potential)
-                                peacock += potential + "\n"
-                            i = sentences.index(potential)
-                            if i > 0:
-                                print(sentences[sentences.index(potential)-1])
-                                nonpeacock += sentences[sentences.index(potential)-1]
-                            if i < len(sentences) - 1:
-                                print(sentences[sentences.index(potential)+1])
-                                nonpeacock += sentences[sentences.index(potential)+1]
-                            pages_used.add(pagename['title'])
-        except Exception as e:
+                if "peacock" in line.lower() or "Puffery" in line.lower():
+                    continue # skip articles with peacock words tagged
+            f1.write(t.html() + "\n~~~~\n")
+        except exceptions.WikipediaException as e:
             print(e)
-            print(t)
     c = text.get("continue")
-    print(c)
-    if c is not None:
+    if c is not None and c.get("cmcontinue") is not None:
         text = requests.get(cmd + "&cmcontinue=" + c.get("cmcontinue")).json()
     else:
-        f = open("../../../data/peacockterms.txt", 'w')
-        f.write(peacock)
-        f1 = open("../../../data/nonpeacockterms.txt", 'w')
+<<<<<<< HEAD:to_sort/src/data_collection/current_peacock_tag/get_random_nonpeacock.py
+        f1 = open("../../../data/nonpeacock_random.txt", 'w')
         f1.write(nonpeacock)
+=======
+        f1 = open("nonpeacock_random.txt", 'w')
+>>>>>>> a96341abddd6e09186592d5da09defe66b974bb2:to_sort/full-text-attempts/get_random_nonpeacock.py
         import sys
         sys.exit(0)
+
+f1 = open("../../../data/nonpeacock_random.txt", 'w')
+f1.write(nonpeacock)
 
 print(pages_used)
 print(nonpeacock)
 print("=================================")
-print(peacock)
 
 
 

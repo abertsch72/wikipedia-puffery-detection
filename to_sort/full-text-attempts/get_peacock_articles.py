@@ -1,69 +1,51 @@
 import requests
 import wikipedia
-from wikipedia import exceptions
 from bs4 import BeautifulSoup
+import re
 from string import punctuation, whitespace
 from nltk import tokenize
-import random
 
-cmd= "https://www.mediawiki.org/w/api.php?action=query&format=json&list=random&rnnamespace=0&rnlimit=max"
+cmd= "https://en.wikipedia.org/w/api.php?action=query&format=json&list=categorymembers&cmtitle=Category%3A%20All%20articles%20with%20peacock%20terms&cmlimit=max"
 text = requests.get(cmd).json()
 
-nonpeacock = ""
-to_get = 286
-so_far = 0
 
-f1 = open("../../../data/nonpeacock_random_append.txt", 'w')
+regex = re.compile(r"(.*?)(<[^<]*>)*<[^<]*?(Puffery|peacock)[^<]*?>")
+
+peacock = ""
+nonpeacock = ""
+
+f = open("peacockterms.txt", 'w')
 
 pages_used = set()
 cont = True
 while(cont):
     print(text.get('continue'))
-    for pagename in text['query']['random']:
+    for pagename in text['query']['categorymembers']:
         try:
+
             t = wikipedia.page(pagename['title'])
-            raw = t.html().split('\n')
-            if "Maintenance template" in raw[0]:
-                continue  # skip articles with issues
-            print(len(raw))
+            raw = t.html().split('\n')[4:]
             for line in raw:
-                if "peacock" in line.lower() or "Puffery" in line.lower():
-                    continue # skip articles with peacock words tagged
-            sampled_paragraph = "^ \""
-            while "^" in sampled_paragraph or len(sampled_paragraph.split()) < 10: # found citation paragraph
-                print("EXCLUDED" + sampled_paragraph)
-                sampled_paragraph = raw[random.randint(1, int(len(raw) / 2) - 1)] # skip first and last several paragraph
-            sentences = tokenize.sent_tokenize(BeautifulSoup(sampled_paragraph, "html.parser").text)
-            if(len(sentences) > 1):
-                potential = sentences[random.randint(0, int(len(sentences) / 2) - 1)]
-            elif (len(sentences) == 1):
-                potential = sentences[0]
-            else:
-                continue
-            nonpeacock += potential + "\n"
-            so_far += 1
-            if so_far == to_get:
-                cont = False
-            pages_used.add(pagename['title'])
-            f1.write(potential + "\n")
-            print(pagename['title'])
-        except exceptions.WikipediaException as e:
+                if "peacock" in line.lower():
+                    peacock += '\n'.join(t.html().split('\n')[4:]) + "\n~~~~\n"
+                    f.write('\n'.join(t.html().split('\n')[4:]) + "\n~~~~\n")
+                break
+        except Exception as e:
             print(e)
+            print(t)
+        print(peacock)
     c = text.get("continue")
-    if c is not None and c.get("cmcontinue") is not None:
+    print(c)
+    if c is not None:
         text = requests.get(cmd + "&cmcontinue=" + c.get("cmcontinue")).json()
     else:
-        f1 = open("../../../data/nonpeacock_random.txt", 'w')
-        f1.write(nonpeacock)
         import sys
         sys.exit(0)
-
-f1 = open("../../../data/nonpeacock_random.txt", 'w')
-f1.write(nonpeacock)
 
 print(pages_used)
 print(nonpeacock)
 print("=================================")
+print(peacock)
 
 
 

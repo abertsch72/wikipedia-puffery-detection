@@ -4,12 +4,20 @@ quotes?
 """
 
 import re
+from nltk.corpus import stopwords
 
+<<<<<<< HEAD:to_sort/src/data_collection/cleaning.py
 peacock_filename = "../../data/peacockterms.txt"
 normal_filename = "../../data/nonpeacock-ir.txt"
+=======
+peacock_filename = "peacockterms.txt"
+normal_filename = "nonpeacock-ir.txt"
+>>>>>>> a96341abddd6e09186592d5da09defe66b974bb2:to_sort/cleaning.py
 
 to_process = {peacock_filename, normal_filename}
 
+to_process = {"nonpeacock-ir.txt", "peacockterms.txt"}
+stopWords = set(stopwords.words('english'))
 for filename in to_process:
     sentences = []
     file = open(filename, 'r')
@@ -43,9 +51,15 @@ for filename in to_process:
 
         # Converting to Lowercase
         sentence = sentence.lower() + "\n"
+        sentence = " ".join([word for word in sentence.split() if word not in stopWords])
+        sentence += "\n"
         print(sentence)
         sentences.append(sentence)
     file.close()
+<<<<<<< HEAD:to_sort/src/data_collection/cleaning.py
     file = open("NEW-clean-" + filename, 'w')
+=======
+    file = open("clean2-" + filename, 'w')
+>>>>>>> a96341abddd6e09186592d5da09defe66b974bb2:to_sort/cleaning.py
     file.writelines(sentences)
 
