@@ -36,16 +36,12 @@ while(cont):
     if c is not None and c.get("cmcontinue") is not None:
         text = requests.get(cmd + "&cmcontinue=" + c.get("cmcontinue")).json()
     else:
-<<<<<<< HEAD:to_sort/src/data_collection/current_peacock_tag/get_random_nonpeacock.py
-        f1 = open("../../../data/nonpeacock_random.txt", 'w')
+        f1 = open("../../../data/nonpeacock_random-2.txt", 'w')
         f1.write(nonpeacock)
-=======
-        f1 = open("nonpeacock_random.txt", 'w')
->>>>>>> a96341abddd6e09186592d5da09defe66b974bb2:to_sort/full-text-attempts/get_random_nonpeacock.py
         import sys
         sys.exit(0)
 
-f1 = open("../../../data/nonpeacock_random.txt", 'w')
+f1 = open("../../../data/nonpeacock_random-2.txt", 'w')
 f1.write(nonpeacock)
 
 print(pages_used)

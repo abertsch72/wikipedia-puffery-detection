@@ -1,5 +1,5 @@
-to_sort/src/data_collection/revision_scanning/enwiki-latest-all-titles-in-ns0
-to_sort/src/transformer_training/testmodel.03-0.23-f1at0.96296.hdf5
+src/data_collection/revision_scanning/enwiki-latest-all-titles-in-ns0
+src/transformer_training/testmodel.03-0.23-f1at0.96296.hdf5
 
 .idea/
 saved_models/

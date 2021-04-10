@@ -1,5 +1,5 @@
 <<<<<<< HEAD:to_sort/src/initial_models/sentiment_threshold.py
-from src.data_collection.current_peacock_tag.get_article_by_name import get_article_by_name
+from src.data_collection import get_article_by_name
 =======
 from to_sort.get_article_by_name import get_article_by_name
 >>>>>>> a96341abddd6e09186592d5da09defe66b974bb2:to_sort/sentiment_threshold.py
