@@ -21,6 +21,10 @@ look at worst errors, precision-recall curve
 HuggingFace library/RoBERTa
 
 
+
+***up font size**
+cross-validation folds
+use dev set from roBERTa
 """
 from sklearn.feature_extraction.text import TfidfVectorizer
 import random
@@ -34,8 +38,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import LinearSVC
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import precision_recall_curve, plot_precision_recall_curve
-peacock_filename = "clean-peacockterms.txt"
-normal_filename = "full-text-attempts/clean-short-nostop-nonpeacock_random_append.txt"
+peacock_filename = "../../data/clean-peacockterms.txt"
+normal_filename = "../../data/clean-nonpeacock_random.txt"
 
 
 df = [[line.strip(), 1] for line in open(peacock_filename).readlines()]
